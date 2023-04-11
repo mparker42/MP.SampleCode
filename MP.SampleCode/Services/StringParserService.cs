@@ -9,7 +9,7 @@ namespace MP.SampleCode.StringCalculator.Services
 {
     public class StringParserService : IStringParserService
     {
-        public int[] ParseAsArrayOfNumbers(string input)
+        public int[] ParseAsArrayOfNumbers(string? input)
         {
             throw new NotImplementedException();
         }

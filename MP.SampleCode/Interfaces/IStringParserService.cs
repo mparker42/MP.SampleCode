@@ -8,6 +8,6 @@ namespace MP.SampleCode.StringCalculator.Interfaces
 {
     public interface IStringParserService
     {
-        int[] ParseAsArrayOfNumbers(string input);
+        int[] ParseAsArrayOfNumbers(string? input);
     }
 }
