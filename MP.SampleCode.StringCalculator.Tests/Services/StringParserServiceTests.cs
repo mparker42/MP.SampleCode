@@ -49,5 +49,30 @@ namespace MP.SampleCode.StringCalculator.Tests.Services
 
             CollectionAssert.AreEquivalent(new[] { expectedResult }, result);
         }
+
+        public static IEnumerable<object[]> TwoNumbersTestData
+        {
+            get
+            {
+                // Without an explicit requirement, test every number up to 100 summed with every other number up to 100.
+                for (var i = 0; i < 100; i++)
+                {
+                    for (var j = 0; j < 100; j++)
+                    {
+                        yield return new object[] { $"{i},{j}", new[] { i, j } };
+                    }
+                }
+            }
+        }
+
+        // Third test, passing two numbers is treated as an array with the passed number in it.
+        [TestMethod]
+        [DynamicData(nameof(TwoNumbersTestData))]
+        public void StringWithTwoNumbersParsesAsTwoNumbersTest(string? testValue, int[] expectedResult)
+        {
+            var result = _classUnderTest.ParseAsArrayOfNumbers(testValue);
+
+            CollectionAssert.AreEquivalent(expectedResult, result);
+        }
     }
 }
