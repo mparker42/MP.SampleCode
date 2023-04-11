@@ -19,6 +19,13 @@ namespace MP.SampleCode.StringCalculator.Handlers
 
         public int Add(string valuesToAdd)
         {
+            var parsedResult = _stringParserService.ParseAsArrayOfNumbers(valuesToAdd);
+
+            if (parsedResult.Length == 1)
+            {
+                return parsedResult[0];
+            }
+
             throw new NotImplementedException();
         }
     }
