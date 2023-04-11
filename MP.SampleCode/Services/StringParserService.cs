@@ -17,7 +17,7 @@ namespace MP.SampleCode.StringCalculator.Services
                 return new[] { 0 };
             }
 
-            throw new NotImplementedException();
+            return new int[] { int.Parse(input) };
         }
     }
 }
