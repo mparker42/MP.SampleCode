@@ -23,7 +23,7 @@ namespace MP.SampleCode.StringCalculator.Tests.Services
         [DataRow(null, DisplayName = "Confirm null parses as an array with one zero in it")]
         public void EmptyStringParsesAsTest(string? testValue)
         {
-            var result = _classUnderTest.ParseValue("");
+            var result = _classUnderTest.ParseAsArrayOfNumbers("");
 
             CollectionAssert.AreEquivalent(new[] { 0 }, result);
         }
