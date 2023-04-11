@@ -11,6 +11,12 @@ namespace MP.SampleCode.StringCalculator.Services
     {
         public int[] ParseAsArrayOfNumbers(string? input)
         {
+            // If null or an empty string is passed then return an array with 0 in it.
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                return new[] { 0 };
+            }
+
             throw new NotImplementedException();
         }
     }
