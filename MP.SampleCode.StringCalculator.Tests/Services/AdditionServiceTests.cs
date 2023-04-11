@@ -33,11 +33,11 @@ namespace MP.SampleCode.StringCalculator.Tests.Services
         // Test passing an array with one number returns the number.
         [TestMethod]
         [DynamicData(nameof(SingleNumberTestData))]
-        public void StringWithOneNumberParsesAsOneNumberTest(int testValue)
+        public void ArrayWithOneNumberReturnsThatNumber(int testValue)
         {
             var result = _classUnderTest.AddAllNumbersInAnArray(new[] { testValue });
 
-            CollectionAssert.AreEquivalent(testValue, result);
+            Assert.AreEqual(testValue, result);
         }
 
         public static IEnumerable<object[]> TwoNumbersTestData
@@ -58,11 +58,11 @@ namespace MP.SampleCode.StringCalculator.Tests.Services
         // Test passing two numbers returns the numbers summed together.
         [TestMethod]
         [DynamicData(nameof(TwoNumbersTestData))]
-        public void StringWithTwoNumbersParsesAsTwoNumbersTest(int[] testValue, int expectedResult)
+        public void ArrayWithTwoNumbersSumsThemTogether(int[] testValue, int expectedResult)
         {
             var result = _classUnderTest.AddAllNumbersInAnArray(testValue);
 
-            CollectionAssert.AreEquivalent(expectedResult, result);
+            Assert.AreEqual(expectedResult, result);
         }
     }
 }
