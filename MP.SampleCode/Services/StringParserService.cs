@@ -17,7 +17,14 @@ namespace MP.SampleCode.StringCalculator.Services
                 return new[] { 0 };
             }
 
-            return new int[] { int.Parse(input) };
+            // First split the input based off the only supported separator.
+            var splitNumbers = input.Split(',');
+
+            // Then int parse the result.
+            var resultsEnumerable = splitNumbers.Select(x => int.Parse(x));
+
+            // Finally return the enumerable as an array.
+            return resultsEnumerable.ToArray();
         }
     }
 }

@@ -11,10 +11,16 @@ namespace MP.SampleCode.StringCalculator.Handlers
     public class StringCalculatorAddHandler : IStringCalculatorAddHandler
     {
         private readonly IStringParserService _stringParserService;
+        private readonly IAdditionService _additionService;
 
-        public StringCalculatorAddHandler(IStringParserService stringParserService)
+        public StringCalculatorAddHandler
+        (
+            IStringParserService stringParserService,
+            IAdditionService additionService
+        )
         {
             _stringParserService = stringParserService;
+            _additionService = additionService;
         }
 
         public int Add(string valuesToAdd)
@@ -26,7 +32,7 @@ namespace MP.SampleCode.StringCalculator.Handlers
                 return parsedResult[0];
             }
 
-            throw new NotImplementedException();
+            return _additionService.AddAllNumbersInAnArray(parsedResult);
         }
     }
 }
