@@ -10,7 +10,7 @@ namespace MP.SampleCode.StringCalculator.Tests.Services
     [TestClass]
     public class StringParserServiceTests
     {
-        private StringParserService _classUnderTest;
+        private readonly StringParserService _classUnderTest;
 
         public StringParserServiceTests()
         {
