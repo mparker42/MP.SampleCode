@@ -112,5 +112,25 @@ namespace MP.SampleCode.StringCalculator.Tests.Services
 
             CollectionAssert.AreEquivalent(expectedResult, result);
         }
+
+        // Test support for new lines in addition to commas
+        [TestMethod]
+        [DataRow("52\n,", new[] { 52 })]
+        [DataRow("52\n", new[] { 52 })]
+        [DataRow("585\n,649", new[] { 585, 649 })]
+        [DataRow("585\n649", new[] { 585, 649 })]
+        [DataRow("151,721\n,608", new[] { 151, 721, 608 })]
+        [DataRow("151,721\n608", new[] { 151, 721, 608 })]
+        [DataRow("416,111,741,688", new[] { 416, 111, 741, 688 })]
+        [DataRow("416\n,111,741\n,688", new[] { 416, 111, 741, 688 })]
+        [DataRow("416\n,111,741\n688", new[] { 416, 111, 741, 688 })]
+        [DataRow("416\n111,741\n688", new[] { 416, 111, 741, 688 })]
+        [DataRow("805\n399\n185,100,9", new[] { 805, 399, 185, 100, 9 })]
+        public void ArrayWithNewLinesParsesCorrectly(string? testValue, int expectedResult)
+        {
+            var result = Program.Main(new[] { testValue });
+
+            Assert.AreEqual(expectedResult, result);
+        }
     }
 }
