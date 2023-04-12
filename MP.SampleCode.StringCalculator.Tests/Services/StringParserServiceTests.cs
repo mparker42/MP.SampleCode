@@ -126,11 +126,11 @@ namespace MP.SampleCode.StringCalculator.Tests.Services
         [DataRow("416\n,111,741\n688", new[] { 416, 111, 741, 688 })]
         [DataRow("416\n111,741\n688", new[] { 416, 111, 741, 688 })]
         [DataRow("805\n399\n185,100,9", new[] { 805, 399, 185, 100, 9 })]
-        public void ArrayWithNewLinesParsesCorrectly(string? testValue, int expectedResult)
+        public void ArrayWithNewLinesParsesCorrectly(string? testValue, int[] expectedResult)
         {
-            var result = Program.Main(new[] { testValue });
+            var result = _classUnderTest.ParseAsArrayOfNumbers(testValue);
 
-            Assert.AreEqual(expectedResult, result);
+            CollectionAssert.AreEquivalent(expectedResult, result);
         }
     }
 }
