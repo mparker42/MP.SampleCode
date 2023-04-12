@@ -132,5 +132,33 @@ namespace MP.SampleCode.StringCalculator.Tests.Services
 
             CollectionAssert.AreEquivalent(expectedResult, result);
         }
+
+        // A test for ; as a separator
+        [TestMethod]
+        [DataRow("//;\n52", new[] { 52 })]
+        [DataRow("//;\n585;649", new[] { 585, 649 })]
+        [DataRow("//;\n151;721;608", new[] { 151, 721, 608 })]
+        [DataRow("//;\n416;111;741;688", new[] { 416, 111, 741, 688 })]
+        [DataRow("//;\n805;399;185;100;9", new[] { 805, 399, 185, 100, 9 })]
+        public void ArrayWithSemicolonSeparatorParsesCorrectly(string? testValue, int[] expectedResult)
+        {
+            var result = _classUnderTest.ParseAsArrayOfNumbers(testValue);
+
+            CollectionAssert.AreEquivalent(expectedResult, result);
+        }
+
+        // A test for c as a separator
+        [TestMethod]
+        [DataRow("//c\n52", new[] { 52 })]
+        [DataRow("//c\n585c649", new[] { 585, 649 })]
+        [DataRow("//c\n151c721c608", new[] { 151, 721, 608 })]
+        [DataRow("//c\n416c111c741c688", new[] { 416, 111, 741, 688 })]
+        [DataRow("//c\n805c399c185c100c9", new[] { 805, 399, 185, 100, 9 })]
+        public void ArrayWithCSeparatorParsesCorrectly(string? testValue, int[] expectedResult)
+        {
+            var result = _classUnderTest.ParseAsArrayOfNumbers(testValue);
+
+            CollectionAssert.AreEquivalent(expectedResult, result);
+        }
     }
 }

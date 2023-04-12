@@ -124,5 +124,33 @@ namespace MP.SampleCode.StringCalculator.Tests
 
             Assert.AreEqual(expectedResult, result);
         }
+
+        // A test for ; as a separator
+        [TestMethod]
+        [DataRow("//;\n52", 52)]
+        [DataRow("//;\n585;649", 1234)]
+        [DataRow("//;\n151;721;608", 1480)]
+        [DataRow("//;\n416;111;741;688", 1956)]
+        [DataRow("//;\n805;399;185;100;9", 1498)]
+        public void ArrayWithSemicolonSeparatorSumsCorrectly(string? testValue, int expectedResult)
+        {
+            var result = Program.Main(new[] { testValue });
+
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        // A test for c as a separator
+        [TestMethod]
+        [DataRow("//c\n52", 52)]
+        [DataRow("//c\n585c649", 1234)]
+        [DataRow("//c\n151c721c608", 1480)]
+        [DataRow("//c\n416c111c741c688", 1956)]
+        [DataRow("//c\n805c399c185c100c9", 1498)]
+        public void ArrayWithCSeparatorSumsCorrectly(string? testValue, int expectedResult)
+        {
+            var result = Program.Main(new[] { testValue });
+
+            Assert.AreEqual(expectedResult, result);
+        }
     }
 }
