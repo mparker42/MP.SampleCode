@@ -23,7 +23,7 @@ namespace MP.SampleCode.StringCalculator.Handlers
             _additionService = additionService;
         }
 
-        public int Add(string valuesToAdd)
+        public int Add(string? valuesToAdd)
         {
             var parsedResult = _stringParserService.ParseAsArrayOfNumbers(valuesToAdd);
 
