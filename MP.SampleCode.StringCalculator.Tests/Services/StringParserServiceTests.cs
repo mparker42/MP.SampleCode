@@ -74,5 +74,43 @@ namespace MP.SampleCode.StringCalculator.Tests.Services
 
             CollectionAssert.AreEquivalent(expectedResult, result);
         }
+
+        // A couple of tests to ensure any number of items can be passed
+        [TestMethod]
+        [DataRow("52", new[] { 52 })]
+        [DataRow("585,649", new[] { 585, 649 })]
+        [DataRow("151,721,608", new[] { 151, 721, 608 })]
+        [DataRow("416,111,741,688", new[] { 416, 111, 741, 688 })]
+        [DataRow("805,399,185,100,9", new[] { 805, 399, 185, 100, 9 })]
+        public void ArrayWithAnyNumberParsesCorrectly(string? testValue, int[] expectedResult)
+        {
+            var result = _classUnderTest.ParseAsArrayOfNumbers(testValue);
+
+            CollectionAssert.AreEquivalent(expectedResult, result);
+        }
+
+        public static IEnumerable<object[]> AnyNumberTestData
+        {
+            get
+            {
+                const int numberToRepeat = 43;
+
+                for (var i = 1; i < 500; i++)
+                {
+                    var rowArray = Enumerable.Repeat(numberToRepeat, i).ToArray();
+
+                    yield return new object[] { string.Join(",", rowArray), rowArray };
+                }
+            }
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(AnyNumberTestData))]
+        public void ArrayWithAnyLargeNumberCollectionParsesCorrectly(string? testValue, int[] expectedResult)
+        {
+            var result = _classUnderTest.ParseAsArrayOfNumbers(testValue);
+
+            CollectionAssert.AreEquivalent(expectedResult, result);
+        }
     }
 }

@@ -64,5 +64,42 @@ namespace MP.SampleCode.StringCalculator.Tests.Services
 
             Assert.AreEqual(expectedResult, result);
         }
+
+        // Test passing any length of number array returns the numbers summed together.
+        [TestMethod]
+        [DataRow(new[] { 52 }, 52)]
+        [DataRow(new[] { 585, 649 }, 1234)]
+        [DataRow(new[] { 151, 721, 608 }, 1480)]
+        [DataRow(new[] { 416, 111, 741, 688 }, 1956)]
+        [DataRow(new[] { 805, 399, 185, 100, 9 }, 1498)]
+        public void ArrayWithAnyNumberSumsThemTogether(int[] testValue, int expectedResult)
+        {
+            var result = _classUnderTest.AddAllNumbersInAnArray(testValue);
+
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        public static IEnumerable<object[]> AnyNumberTestData
+        {
+            get
+            {
+                const int numberToSum = 43;
+
+                for (var i = 1; i < 500; i++)
+                {
+                    yield return new object[] { Enumerable.Repeat(numberToSum, i).ToArray(), i * numberToSum };
+                }
+            }
+        }
+
+        // Test passing two numbers returns the numbers summed together.
+        [TestMethod]
+        [DynamicData(nameof(AnyNumberTestData))]
+        public void ArrayWithAnyLargeNumberCollectionSumsThemTogether(int[] testValue, int expectedResult)
+        {
+            var result = _classUnderTest.AddAllNumbersInAnArray(testValue);
+
+            Assert.AreEqual(expectedResult, result);
+        }
     }
 }
