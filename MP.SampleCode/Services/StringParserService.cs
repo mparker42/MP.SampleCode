@@ -10,7 +10,12 @@ namespace MP.SampleCode.StringCalculator.Services
 {
     public class StringParserService : IStringParserService
     {
-        private const string _regexPattern = "[,\n]";
+        private const string
+            // Match on any comma or new line in a string. For the newline detection, the multiline flag must be enabled.
+            _stockSplitRegexPattern = "[,\n]",
+
+            // Match any string begining with // that is followed by one character before the end of the line.
+            _customSplitFinderRegexPattern = "^\\/\\/(.{1})\n";
 
         public int[] ParseAsArrayOfNumbers(string? input)
         {
@@ -20,18 +25,34 @@ namespace MP.SampleCode.StringCalculator.Services
                 return new[] { 0 };
             }
 
-            // First split the input based off the only supported separator.
-            var splitNumbers = Regex.Split
-            (
-                input,
-                _regexPattern,
-                RegexOptions.Multiline
-            );
+            IEnumerable<string> splitNumbers;
+
+            var customDeliminator = Regex.Match(input, _customSplitFinderRegexPattern);
+
+            if (customDeliminator.Success)
+            {
+                var splitCharacter = customDeliminator.Groups[1].Value;
+                var stringStart = customDeliminator.Value;
+
+                splitNumbers = input
+                    .Substring(stringStart.Length)
+                    .Split(splitCharacter);
+            }
+            else
+            {
+                // First split the input based off the only supported separator.
+                splitNumbers = Regex.Split
+                (
+                    input,
+                    _stockSplitRegexPattern,
+                    RegexOptions.Multiline
+                )
+                .Where(s => !string.IsNullOrWhiteSpace(s));
+            }
 
             // Then int parse the result.
             var resultsEnumerable =
                 splitNumbers
-                .Where(s => !string.IsNullOrWhiteSpace(s))
                 .Select(x => int.Parse(x));
 
             // Finally return the enumerable as an array.
