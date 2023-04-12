@@ -27,12 +27,12 @@ namespace MP.SampleCode.StringCalculator.Services
 
             IEnumerable<string> splitNumbers;
 
-            var customDeliminator = Regex.Match(input, _customSplitFinderRegexPattern);
+            var customDelimiter = Regex.Match(input, _customSplitFinderRegexPattern);
 
-            if (customDeliminator.Success)
+            if (customDelimiter.Success)
             {
-                var splitCharacter = customDeliminator.Groups[1].Value;
-                var stringStart = customDeliminator.Value;
+                var splitCharacter = customDelimiter.Groups[1].Value;
+                var stringStart = customDelimiter.Value;
 
                 splitNumbers = input
                     .Substring(stringStart.Length)
