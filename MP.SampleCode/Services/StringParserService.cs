@@ -1,10 +1,5 @@
 ﻿using MP.SampleCode.StringCalculator.Interfaces.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace MP.SampleCode.StringCalculator.Services
 {

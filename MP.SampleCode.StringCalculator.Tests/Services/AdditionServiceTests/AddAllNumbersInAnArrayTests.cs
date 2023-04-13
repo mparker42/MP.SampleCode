@@ -1,10 +1,4 @@
-﻿using MP.SampleCode.StringCalculator.Interfaces.Services;
-using MP.SampleCode.StringCalculator.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MP.SampleCode.StringCalculator.Services;
 
 namespace MP.SampleCode.StringCalculator.Tests.Services.AdditionServiceTests
 {

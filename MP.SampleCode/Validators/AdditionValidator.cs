@@ -1,10 +1,5 @@
 ﻿using MP.SampleCode.StringCalculator.Exceptions;
 using MP.SampleCode.StringCalculator.Interfaces.Validators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MP.SampleCode.StringCalculator.Validators
 {
@@ -16,7 +11,7 @@ namespace MP.SampleCode.StringCalculator.Validators
                 .Where(v => v < 0)
                 .ToArray();
 
-            if(negativeValues.Length > 0)
+            if (negativeValues.Length > 0)
             {
                 throw new NegativeItemsInAdditionException(negativeValues);
             }
