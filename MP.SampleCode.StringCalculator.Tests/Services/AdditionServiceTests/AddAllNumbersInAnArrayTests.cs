@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MP.SampleCode.StringCalculator.Tests.Services
+namespace MP.SampleCode.StringCalculator.Tests.Services.AdditionServiceTests
 {
     [TestClass]
-    public class AdditionServiceTests
+    public class AddAllNumbersInAnArrayTests
     {
         private readonly AdditionService _classUnderTest;
 
-        public AdditionServiceTests()
+        public AddAllNumbersInAnArrayTests()
         {
             _classUnderTest = new AdditionService();
         }

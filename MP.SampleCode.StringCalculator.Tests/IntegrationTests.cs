@@ -168,5 +168,22 @@ namespace MP.SampleCode.StringCalculator.Tests
 
             Assert.AreEqual(expectedErrorMessage, exception.Message);
         }
+
+        // Test passing numbers over 1000 are discarded and the remaining numbers are summed together.
+        [TestMethod]
+        [DataRow("1052", 0)]
+        [DataRow("5850,1649", 0)]
+        [DataRow("5850,164", 164)]
+        [DataRow("1510,7210,608", 608)]
+        [DataRow("416,1111,7418,6888", 416)]
+        [DataRow("8052,3996,1854,100,9", 109)]
+        [DataRow("805,3998,1850,100,9,99999", 914)]
+        [DataRow("805,399,185,1001,9,18000", 1398)]
+        public void NumbersOverOneThousandAreDiscarded(string testValue, int expectedResult)
+        {
+            var result = Program.Main(new[] { testValue });
+
+            Assert.AreEqual(expectedResult, result);
+        }
     }
 }
