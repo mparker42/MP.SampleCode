@@ -1,5 +1,6 @@
 ﻿using MP.SampleCode.StringCalculator.Exceptions;
 using MP.SampleCode.StringCalculator.Services;
+using MP.SampleCode.StringCalculator.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,11 @@ namespace MP.SampleCode.StringCalculator.Tests.Validators
     [TestClass]
     public class AdditionValidatorTests
     {
-        private readonly AdditionValidatorTests _classUnderTest;
+        private readonly AdditionValidator _classUnderTest;
 
         public AdditionValidatorTests()
         {
-            _classUnderTest = new AdditionValidatorTests();
+            _classUnderTest = new AdditionValidator();
         }
 
         [TestMethod]
