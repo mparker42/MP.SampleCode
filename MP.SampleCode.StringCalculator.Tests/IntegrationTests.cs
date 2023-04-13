@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MP.SampleCode.StringCalculator.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -151,6 +152,21 @@ namespace MP.SampleCode.StringCalculator.Tests
             var result = Program.Main(new[] { testValue });
 
             Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
+        [DataRow("-52", "-52")]
+        [DataRow("585,-649", "-649")]
+        [DataRow("-151,721,-608", "-151, -608")]
+        [DataRow("416,-111,-741,-688", "-111, -741, -688")]
+        [DataRow("-805,399,-185,100,9", "-805, -185")]
+        public void ArrayWithNegativeValuesFailsValidation(string testValue, string expectedFailures)
+        {
+            var exception = Assert.ThrowsException<NegativeItemsInAdditionException>(() => Program.Main(new[] { testValue }));
+
+            var expectedErrorMessage = string.Format(NegativeItemsInAdditionException.ErrorMessageTemplate, expectedFailures);
+
+            Assert.AreEqual(expectedErrorMessage, exception.Message);
         }
     }
 }
