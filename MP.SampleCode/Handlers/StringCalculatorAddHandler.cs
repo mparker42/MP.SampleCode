@@ -36,10 +36,8 @@ namespace MP.SampleCode.StringCalculator.Handlers
             // Do this here to keep the services simple.
             _validator.Validate(parsedResult);
 
-            if (parsedResult.Length == 1)
-            {
-                return parsedResult[0];
-            }
+            // Remove all numbers that are over 1000 before adding them all together.
+            parsedResult = _additionService.DiscardLargeNumbersInAnArray(parsedResult);
 
             return _additionService.AddAllNumbersInAnArray(parsedResult);
         }

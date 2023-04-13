@@ -33,75 +33,31 @@ namespace MP.SampleCode.StringCalculator.Tests.Handlers
             );
         }
 
-        // After we have some handling for simple parsing, introduce a method for doing the addition and test it for one value.
-        [TestMethod]
-        public void HandlerParsesStringWithOneValue()
+        public void SetupCommonInvocations(string input, int[] parserResponse, int[] discardResponse, int additionResponse)
         {
-            var input = "Some Input";
-
-            var parserResponse = 24451;
-
-            var parserResponseArray = new[] { parserResponse };
-
-            _mockParserService
-                .Setup(s => s.ParseAsArrayOfNumbers(input))
-                .Returns(() => parserResponseArray);
-
-            _mockAdditionValidator
-                .Setup(v => v.Validate(parserResponseArray));
-
-            var result = _classUnderTest.Add(input);
-
-            _mockParserService
-                .Verify
-                (
-                    s => s.ParseAsArrayOfNumbers(input),
-                    Times.Once
-                );
-
-            _mockAdditionValidator
-                .Verify
-                (
-                    v => v.Validate(parserResponseArray),
-                    Times.Once
-                );
-
-            Assert.AreEqual(parserResponse, result);
-        }
-
-        [TestMethod]
-        public void HandlerParsesStringWithTwoValues()
-        {
-            var input = "Some Input";
-
-            var parserResponse = new[] { 24451, 1224 };
-
-            var additionResponse = 32;
-
+            // Setup in the order they should be called
             _mockParserService
                 .Setup(s => s.ParseAsArrayOfNumbers(input))
                 .Returns(() => parserResponse);
 
-            _mockAdditionService
-                .Setup(s => s.AddAllNumbersInAnArray(parserResponse))
-                .Returns(() => additionResponse);
-
             _mockAdditionValidator
                 .Setup(v => v.Validate(parserResponse));
 
-            var result = _classUnderTest.Add(input);
+            _mockAdditionService
+                .Setup(s => s.DiscardLargeNumbersInAnArray(parserResponse))
+                .Returns(() => discardResponse);
 
+            _mockAdditionService
+                .Setup(s => s.AddAllNumbersInAnArray(discardResponse))
+                .Returns(() => additionResponse);
+        }
+
+        public void VerifyCommonInvocations(string input, int[] parserResponse, int[] discardResponse)
+        {
             _mockParserService
                 .Verify
                 (
                     s => s.ParseAsArrayOfNumbers(input),
-                    Times.Once
-                );
-
-            _mockAdditionService
-                .Verify
-                (
-                    s => s.AddAllNumbersInAnArray(parserResponse),
                     Times.Once
                 );
 
@@ -111,6 +67,59 @@ namespace MP.SampleCode.StringCalculator.Tests.Handlers
                     v => v.Validate(parserResponse),
                     Times.Once
                 );
+
+            _mockAdditionService
+                .Verify
+                (
+                    s => s.DiscardLargeNumbersInAnArray(parserResponse),
+                    Times.Once
+                );
+
+            _mockAdditionService
+                .Verify
+                (
+                    s => s.AddAllNumbersInAnArray(discardResponse),
+                    Times.Once
+                );
+        }
+
+        // After we have some handling for simple parsing, introduce a method for doing the addition and test it for one value.
+        [TestMethod]
+        public void HandlerParsesStringWithOneValue()
+        {
+            var input = "Some Input";
+
+            var parserResponseArray = new[] { 51 };
+
+            var discardResponseArray = new[] { 451 };
+
+            var additionResponse = 24451;
+
+            SetupCommonInvocations(input, parserResponseArray, discardResponseArray, additionResponse);
+
+            var result = _classUnderTest.Add(input);
+
+            VerifyCommonInvocations(input, parserResponseArray, discardResponseArray);
+
+            Assert.AreEqual(additionResponse, result);
+        }
+
+        [TestMethod]
+        public void HandlerParsesStringWithTwoValues()
+        {
+            var input = "Some Input";
+
+            var parserResponseArray = new[] { 51, 244 };
+
+            var discardResponseArray = new[] { 451, 244 };
+
+            var additionResponse = 24451;
+
+            SetupCommonInvocations(input, parserResponseArray, discardResponseArray, additionResponse);
+
+            var result = _classUnderTest.Add(input);
+
+            VerifyCommonInvocations(input, parserResponseArray, discardResponseArray);
 
             Assert.AreEqual(additionResponse, result);
         }

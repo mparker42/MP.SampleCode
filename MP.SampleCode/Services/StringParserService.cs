@@ -35,7 +35,7 @@ namespace MP.SampleCode.StringCalculator.Services
                 var stringStart = customDelimiter.Value;
 
                 splitNumbers = input
-                    .Substring(stringStart.Length)
+                    [stringStart.Length..]
                     .Split(splitCharacter);
             }
             else
