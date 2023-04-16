@@ -3,20 +3,20 @@ using MP.SampleCode.LinkedList.Tests.Models;
 namespace MP.SampleCode.LinkedList.Tests
 {
     [TestClass]
-    public class PrintLinkedListTests
+    public unsafe class PrintLinkedListTests
     {
         private void TestSingleValue<T>(T valueToInsert, string valueToInsertAsString)
         {
             var list = new CustomLinkedList<T>();
 
-            list.Insert(valueToInsert);
+            list.Insert(&valueToInsert);
 
-            Assert.AreEqual(1, list.Count());
+            Assert.AreEqual(1, list.Count);
 
-            var output = list.Print(0);
+            var output = list.Print();
 
             Assert.AreEqual(1, output.Count());
-            Assert.AreEqual(valueToInsertAsString, output[0]);
+            Assert.AreEqual(valueToInsertAsString, output.ElementAt(0));
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@ namespace MP.SampleCode.LinkedList.Tests
             TestSingleValue(new ListTestClass { ExampleProperty = "1332" }, "1332");
         }
 
-        private void TestManyValues<T>(IEnumerable<T> valuesToInsert)
+        private void TestManyValues<T>(T*[] valuesToInsert)
         {
             var list = new CustomLinkedList<T>();
 
@@ -46,42 +46,50 @@ namespace MP.SampleCode.LinkedList.Tests
                 list.Insert(value);
             }
 
-            Assert.AreEqual(valuesToInsert.Count(), list.Count());
+            Assert.AreEqual(valuesToInsert.Length, list.Count);
 
-            var output = list.Print(0);
+            var output = list.Print();
 
-            for (var i = 0; i < valuesToInsert.Count(); i++)
+            for (var i = 0; i < valuesToInsert.Length; i++)
             {
-                Assert.AreEqual(valuesToInsert.ElementAt(i).ToString(), output[0]);
+                Assert.AreEqual((*valuesToInsert[i])!.ToString(), output.ElementAt(i));
             }
         }
 
         [TestMethod]
         public void PrintIntsFromListTest()
         {
-            TestManyValues(new[] { 1557, 144, 52, 4862 });
+            int
+                testItem1 = 1557,
+                testItem2 = 144,
+                testItem3 = 52,
+                testItem4 = 4862;
+
+            TestManyValues(new[] { &testItem1, &testItem2, &testItem3, &testItem4 });
         }
 
         [TestMethod]
         public void PrintStringsFromListTest()
         {
-            TestManyValues(new[] { "Lemon", "", "Some Value" });
+            string
+                testItem1 = "Lemon",
+                testItem2 = "",
+                testItem3 = "Some Value";
+
+            TestManyValues(new[] { &testItem1, &testItem2, &testItem3 });
         }
 
         [TestMethod]
         public void PrintReferenceTypesFromListTest()
         {
-            TestManyValues
-            (
-                new[]
-                {
-                    new ListTestClass { ExampleProperty = "548" },
-                    new ListTestClass { ExampleProperty = "6891" },
-                    new ListTestClass { ExampleProperty = "7" },
-                    new ListTestClass { ExampleProperty = "65" },
-                    new ListTestClass { ExampleProperty = "0" }
-                }
-            );
+            ListTestClass
+                testItem1 = new ListTestClass { ExampleProperty = "548" },
+                testItem2 = new ListTestClass { ExampleProperty = "6891" },
+                testItem3 = new ListTestClass { ExampleProperty = "7" },
+                testItem4 = new ListTestClass { ExampleProperty = "65" },
+                testItem5 = new ListTestClass { ExampleProperty = "0" };
+
+            TestManyValues(new[] { &testItem1, &testItem2, &testItem3, &testItem4, &testItem5 });
         }
     }
 }
